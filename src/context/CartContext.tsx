@@ -1,86 +1,72 @@
-import { HTMLAttributes, useState, createContext } from "react";
+import { useState, createContext, PropsWithChildren } from "react";
+import { CartContextType, CartItemBase } from "./type";
 
-export interface CartItemBase {
-  id: string;
-  category: any;
-categoryId: any;
-description: any;
-images: any;
-price: any;
-title: any;
-quantity: any;
-}
-
-export type CartListItem<TItemType extends CartItemBase> = {
-  product: TItemType;
-  quantity: number;
-};
-
-export type CartContextType<TItemType extends CartItemBase> = {
-  cart: any;
-  addProductToCart: (product: TItemType) => void;
-  removeProductFromCart: (item: TItemType, index: any) => void;
-
-  showModal: boolean;
-    setShowModal: (toggle: boolean) => void;
-};
-
-const defaultContext: CartContextType<any> = {
+const defaultContext: CartContextType = {
   cart: [],
+  totalPrice: 0,
+  totalProducts: 0,
+  showModal: false,
+  confirmOrder: false,
+  setShowModal: () => [],
+  setConfirmOrder: () => [],
   addProductToCart: () => {},
   removeProductFromCart: () => {},
-  showModal: false,
-  setShowModal: () => [],
 };
 
-export const CartContext  =
-  createContext<any>(defaultContext);
+export const CartContext = createContext<CartContextType>(defaultContext);
 
-export const CartContextProvider = <TItemType extends CartItemBase>({
+export const CartContextProvider = ({
   children,
-}: any) => {
-  
-  const [products, setProducts] = useState<TItemType[]>([]);
-
+}: PropsWithChildren) => {
+  const [products, setProducts] = useState<CartItemBase[]>([]);
+  const [confirmOrder, setConfirm] = useState(false);
   const [showModal, setToggle] = useState(false);
 
   const setShowModal = (toggle: boolean) => {
     setToggle(toggle);
   };
 
-  const getProductById = (id: string): TItemType | undefined => {
+  const setConfirmOrder = (confirmation: boolean) => {
+    setConfirm(confirmation);
+  };
+
+  const getProductById = (id: string): CartItemBase | undefined => {
     return products.find((p) => p.category.id === id);
   };
 
-  const addProductToCart = (product: TItemType): void => {
+  const addProductToCart = (product: CartItemBase): void => {
     const existingProduct = getProductById(product.category.id);
-    let newState: TItemType[];
+    let newState: CartItemBase[];
     if (existingProduct) {
-      newState = products.map((p, index) => {
+      newState = products.map((p) => {
         if (p.category.id === existingProduct.category.id) {
           return {
-             ...p, id: Math.floor(Math.random() * 1000)
+            ...p,
+            id: Math.floor(Math.random() * 1000),
           };
         }
-        return p ;
+        return p;
       });
       setProducts(newState);
     }
-    let newProduct = {...product, id: Math.floor(Math.random() * 1000)}
-    setProducts([...products, newProduct ]);
+    let newProduct = { ...product, id: Math.floor(Math.random() * 1000) };
+    setProducts([...products, newProduct]);
   };
-  const removeProductFromCart = (product: TItemType, index: any) => {
-
+  const removeProductFromCart = (product: CartItemBase) => {
     const newProducts = products.filter((p) => p.id !== product.id);
     setProducts(newProducts);
   };
 
-  const contextValue: CartContextType<TItemType> = {
-    cart: products,
-    addProductToCart,
-    removeProductFromCart,
+  const contextValue: CartContextType = {
     showModal,
     setShowModal,
+    confirmOrder,
+    cart: products,
+    setConfirmOrder,
+    addProductToCart,
+    removeProductFromCart,
+    totalProducts: products.length,
+    totalPrice: products.reduce((count, current) => count + current.price, 0),
   };
 
   return (

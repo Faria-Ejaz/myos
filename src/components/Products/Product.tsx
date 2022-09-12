@@ -1,27 +1,26 @@
-import React, { useContext } from "react";
-import Card from "@mui/material/Card";
-import CardActions from "@mui/material/CardActions";
-import CardContent from "@mui/material/CardContent";
-import CardMedia from "@mui/material/CardMedia";
-import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
+import { useContext } from "react";
+import {
+  Card,
+  Box,
+  CardActions,
+  CardContent,
+  CardMedia,
+  Button,
+  Typography,
+} from "@mui/material";
 import { styled } from "@mui/system";
-import { IconButton, Badge, Box } from "@mui/material";
-
-import SellRoundedIcon from "@mui/icons-material/SellRounded";
 // Context
 import { CartContext } from "../../context/CartContext";
+//Helpers
+import { formatter } from "../../utils/helpers";
+import { Product as ProductType } from "../type";
 
-export default function Product(product: any, index: any) {
-    const { addProductToCart } = useContext(CartContext);
+type ProductArray = {
+  product: ProductType
+}
 
-
-  let quantity = 1;
-
-//   const addProductToCart = (item: any, quantity: any) => {
-//     console.log("🚀 ~ file: Product.tsx ~ line 23 ~ addProductToCart ~ item: any, quantity: any", item, quantity)
-//     addProductToCart( item, quantity );
-//   };
+export default function Product(product: ProductArray) {
+  const { addProductToCart } = useContext(CartContext);
 
   return (
     <StyledCard key={product.product.id}>
@@ -31,7 +30,7 @@ export default function Product(product: any, index: any) {
         height="140"
         image={product.product.category.image}
       />
-      <StyledBadge>€{product.product.price}</StyledBadge>
+      <StyledBadge> {formatter().format(product.product.price)}</StyledBadge>
       <StyledCardContent>
         <Typography gutterBottom variant="h5" component={"div"}>
           {product.product.title}
@@ -41,7 +40,10 @@ export default function Product(product: any, index: any) {
         </Typography>
       </StyledCardContent>
       <CardActions>
-        <StyledButton onClick={() => addProductToCart(product.product)} size="small">
+        <StyledButton
+          onClick={() => addProductToCart(product.product)}
+          size="small"
+        >
           Add to cart
         </StyledButton>
       </CardActions>
@@ -68,9 +70,7 @@ const StyledCardContent = styled(CardContent)({
 
 const StyledCard = styled(Card)({
   fontFamily: "'DM Sans',sans-serif",
-  // position: "relative",
   display: "flex",
-  // width: "100%",
   minHeight: "380px",
   padding: "15px 20px  20px",
   flexDirection: "column",

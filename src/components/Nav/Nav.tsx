@@ -1,23 +1,16 @@
-import { Container } from "@mui/system";
-import { Box, Link, Button, InputBase, IconButton, Badge } from "@mui/material";
+import { useContext } from "react";
 import { styled } from "@mui/system";
-import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
+import { Container } from "@mui/system";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
-// Components
-// import { PrimaryButton } from "../Buttons/Buttons";
-
-import React, { useContext } from "react";
-
-// import  {
-//   AddressBookContext,
-// } from "../../context/AddressBookContext";
-import { CartContext } from "../../context/CartContext";
-
+import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
+import { Box, Link, Button, IconButton, Badge } from "@mui/material";
 // Assets
 import logo from "../../assets/svg/logo.svg";
+//Context
+import { CartContext } from "../../context/CartContext";
 
 function Nav() {
-    const { setShowModal } = useContext(CartContext);
+  const { setShowModal, totalProducts } = useContext(CartContext);
 
   return (
     <StyledNavBox component="nav" bgcolor={"white"} sx={{ py: 3 }}>
@@ -33,12 +26,12 @@ function Nav() {
             <img src={logo} alt="bequest logo" />
           </StyledLink>
           <Box display="flex" justifyContent="space-between">
-            <IconButton aria-label="cart" onClick={()=> setShowModal(true)}>
-              <StyledBadge badgeContent={4} >
+            <IconButton aria-label="cart" onClick={() => setShowModal(true)}>
+              <StyledBadge badgeContent={totalProducts}>
                 <ShoppingCartIcon />
               </StyledBadge>
             </IconButton>
-            <StyledButton >
+            <StyledButton>
               Inquire for free <ArrowRightAltIcon fontSize={"small"} />
             </StyledButton>
           </Box>
@@ -57,7 +50,7 @@ const StyledLink = styled(Link)({
   paddingTop: "10px",
 });
 
-const StyledButton = styled(Button)(({ theme }: any) => ({
+const StyledButton = styled(Button)({
   alignItems: "center",
   borderRadius: "4px",
   backgroundColor: "#76a9ff",
@@ -69,11 +62,10 @@ const StyledButton = styled(Button)(({ theme }: any) => ({
   padding: "7px 30px",
   fontFamily: "'DM Sans',sans-serif",
   textTransform: "none",
-
   "&:hover": {
     backgroundColor: "#6399f7",
   },
-}));
+});
 
 const StyledNavBox = styled(Box)({
   position: "sticky",
@@ -87,19 +79,6 @@ const StyledNavBox = styled(Box)({
   backgroundColor: "#f4f8fd",
 });
 
-const Search = styled("div")({
-  flex: 1,
-  display: "flex",
-  flexDirection: "column",
-});
-
-const SearchIconWrapper = styled("div")({
-  position: "absolute",
-  top: "48px",
-  left: "11px",
-  right: "11px",
-});
-
 const StyledBadge = styled(Badge)({
   "& .MuiBadge-badge": {
     right: 3,
@@ -108,7 +87,7 @@ const StyledBadge = styled(Badge)({
     padding: "0 4px",
     backgroundColor: "#76a9ff",
     color: "#fff",
-    fontWeight: "700"
+    fontWeight: "700",
   },
   "& .MuiSvgIcon-root": {
     color: "black",
@@ -116,27 +95,3 @@ const StyledBadge = styled(Badge)({
     // padding: "5px",
   },
 });
-
-const StyledInputBase = styled(InputBase)(({ theme }: any) => ({
-  color: "inherit",
-  flex: 1,
-
-  fontWeight: 500,
-  backgroundColor: "transparent",
-  lineHeight: 1.2,
-  "& .MuiInputBase-input": {
-    width: "30%",
-    height: "40px",
-    outline: "none",
-    border: "1px solid rgba(50, 50, 50, 0.6)",
-    borderRadius: "10px",
-    fontWeight: 700,
-    lineHeight: "44.27px",
-    color: "#323232",
-    fontFamily: "DM Sans, sans-serif",
-    padding: "0px 23px",
-    [theme.breakpoints.down("tablet")]: {
-      width: "100%",
-    },
-  },
-}));

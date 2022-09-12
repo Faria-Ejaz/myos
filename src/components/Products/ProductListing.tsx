@@ -1,13 +1,12 @@
-import React, { useEffect, useState } from "react";
-import { Box, InputBase, CircularProgress } from "@mui/material";
-import Typography from "@mui/material/Typography";
-import { styled } from "@mui/material/styles";
-import Product from "./Product";
+import { useEffect, useState } from "react";
 import SearchIcon from "@mui/icons-material/Search";
+import { Box, InputBase, CircularProgress, Typography, styled } from "@mui/material";
+//Components
+import Product from "./Product";
+import { Product as ProductType } from "../type";
 
 export default function ProductListing() {
-  const [products, setProducts] = useState<any>([]);
-  const [error, setError] = useState(null);
+  const [products, setProducts] = useState<ProductType[]>([]);
   const [isLoaded, setIsLoaded] = useState(false);
   const [q, setQ] = useState("");
   const [searchParam] = useState(["title", "description"]);
@@ -22,13 +21,12 @@ export default function ProductListing() {
         },
         (error) => {
           setIsLoaded(true);
-          setError(error);
         }
       );
   }, []);
 
-  const search = (products: any) => {
-    return products.filter((product: any) => {
+  const search = (products: ProductType[]) => {
+    return products.filter((product: ProductType | any) => {
       return searchParam.some((newProduct) => {
         return (
           product[newProduct]
@@ -39,6 +37,7 @@ export default function ProductListing() {
       });
     });
   };
+
   if (!isLoaded) {
     return (
       <LoaderWrap >
@@ -68,8 +67,8 @@ export default function ProductListing() {
           </Search>
         </StyledContent>
         <ProductWrap>
-          {search(products).map((product: any, index: any) => (
-            <Product product={product} index={index} />
+          {search(products).map((product: ProductType) => (
+            <Product product={product} />
           ))}
         </ProductWrap>
       </Wrap>

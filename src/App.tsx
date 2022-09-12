@@ -1,11 +1,9 @@
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import logo from './logo.svg';
-import './App.css';
+//Components
 import Nav from './components/Nav/Nav';
-import Product from './components/Products/Product';
 import ProductListing from './components/Products/ProductListing';
 import { DialogBox } from "./components/DialogBox/DialogBox";
-
+//Context
 import {CartContextProvider} from "./context/CartContext";
 
 declare module '@mui/material/styles' {
@@ -34,8 +32,6 @@ const theme = createTheme({
 });
 
 function App() {
-  // const contextObject = CreateCartContext<any>();
-
   return (
     <CartContextProvider>
     <ThemeProvider theme={theme}>

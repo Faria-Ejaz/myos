@@ -1,85 +1,24 @@
-import {
-  Box,
-  Card,
-  Dialog,
-  Divider,
-  InputBase,
-  TextField,
-  Typography,
-  DialogTitle,
-  CardContent,
-  DialogActions,
-  DialogContent,
-  CardMedia,
-  Table,
-  TableContainer,
-  TableHead,
-  TableCell,
-  TableRow,
-  TableBody,
-  Button,
-} from "@mui/material";
-import Paper from "@mui/material/Paper";
-import AddCircleRoundedIcon from "@mui/icons-material/AddCircleRounded";
-import RemoveCircleRoundedIcon from "@mui/icons-material/RemoveCircleRounded";
-import DeleteRoundedIcon from "@mui/icons-material/DeleteRounded";
-// import * as yup from "yup";
-// import { v4 as uuid } from "uuid";
 import { useContext } from "react";
 import { styled } from "@mui/system";
-// import { useForm } from "react-hook-form";
-import IconButton from "@mui/material/IconButton";
-// import { yupResolver } from "@hookform/resolvers/yup";
+import { Dialog, IconButton } from "@mui/material";
 import CancelOutlinedIcon from "@mui/icons-material/CancelOutlined";
-import SkipPreviousIcon from "@mui/icons-material/SkipPrevious";
-import PlayArrowIcon from "@mui/icons-material/PlayArrow";
-import SkipNextIcon from "@mui/icons-material/SkipNext";
-import { OrderConfirmation } from "../OrderConfirmation/OrderConfirmation";
+//Components
 import { CartProducts } from "../CartProducts/CartProducts";
+import { OrderConfirmation } from "../OrderConfirmation/OrderConfirmation";
 // Context
-// import { AddressBookContext } from "../../context/AddressBookContext";
-// // Components
-// import { PrimaryButton } from "../Buttons/Buttons";
-// // type
-// import { Address } from "../type";
 import { CartContext } from "../../context/CartContext";
 
 export const DialogBox = () => {
-
-  const {cart, showModal, setShowModal} = useContext(CartContext);
-  // const {
-  //   reset,
-  //   handleSubmit,
-  //   register,
-  //   formState: { errors },
-  // } = useForm<Address>({
-  //   resolver: yupResolver(AddressFormSchema),
-  // });
-  // const submitForm = (data: Address) => {
-  //   onSubmit(data);
-  //   reset();
-  // };
-
-  // const { showModal, setShowModal, addAddress } =
-  //   useContext(AddressBookContext);
-
-  // const onClose = () => {
-  //   setShowModal(false);
-  // };
-
-  // const onSubmit = (address: Address) => {
-  //   addAddress({ ...address, id: uuid() });
-  //   onClose();
-  // };
+  const { showModal, setShowModal } = useContext(CartContext);
 
   const onClose = () => {
     setShowModal(false);
   };
+  
   return (
     <>
       <DialogWrap
         open={showModal}
-        // maxWidth="md"
       >
         <IconButton
           onClick={onClose}
@@ -106,7 +45,6 @@ const DialogWrap = styled(Dialog)({
   zIndex: 99999,
   overflow: "visible",
   borderRadius: "35px",
-
   "& .MuiDialog-paper": {
     display: "flex",
     flexDirection: "row",
@@ -122,23 +60,5 @@ const DialogWrap = styled(Dialog)({
     fontStyle: "normal",
     fontWeight: 700,
     fontSize: "16px",
-  },
-});
-
-const Field = styled(TextField)({
-  "& .MuiInputBase-input": {
-    padding: "15px 12px",
-    fontFamily: "HCo Gotham SSm, sans-serif",
-    color: "#343a40",
-  },
-  "& .MuiOutlinedInput-root": {
-    "& fieldset": {
-      borderRadius: "25px",
-      border: "1px solid rgb(200, 200, 200) ",
-    },
-  },
-  "& .MuiFormLabel-root": {
-    fontFamily: "HCo Gotham SSm, sans-serif",
-    color: "#343a40",
   },
 });
