@@ -1,10 +1,14 @@
+type Category = {
+  id: string;
+  name: string;
+  image: string;
+};
+
 export interface Product {
-    price: any;
-    title: any;
-    id: string;
-    images: any;
-    quantity: any;
-    category: any;
-    categoryId: any;
-    description: any;
+  price: number;
+  title: string;
+  id: string | number;
+  images: string[];
+  category: Category;
+  description: string;
   }

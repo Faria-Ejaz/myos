@@ -13,7 +13,7 @@ import { styled } from "@mui/system";
 import { CartContext } from "../../context/CartContext";
 //Helpers
 import { formatter } from "../../utils/helpers";
-import { Product } from "../type";
+import { Product as ProductType } from "../type";
 
 export const CartProducts = () => {
   const { cart, removeProductFromCart, confirmOrder } = useContext(CartContext);
@@ -30,7 +30,7 @@ export const CartProducts = () => {
       <Table size="small" aria-label="a dense table">
         <TableBody>
           {cart.length ? (
-            cart.map((product: any) => (
+            cart.map((product: ProductType) => (
               <TableRow
                 key={product.id}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
